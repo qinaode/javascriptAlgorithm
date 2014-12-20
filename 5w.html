@@ -71,21 +71,28 @@
 	//递归转换为取9次 和值分别大于 80 81 82 83 84 85 86 87 88 89 90
 	//方法一，最后一次才判断，相当于穷举
 	//方法二,合理递归则不会进行到最后一次，速度较快
-	//操,以下方法居然求出来的是组合，而不是全部的情况
-	function greatThan90(scoreList,time){
+	var n=0;
+	function greatThan90(score,scoreList,total,time){
+		//以下这个判断是关键，如果没有这个，执行效率和穷举没太多差别
+		//如果每次都去最大值仍然达不到要求，则退出。
+		if(total>=time*10){
+			return;
+		}
 		if(time==0){
-			if(scoreList.sum()==13){
-				console.info(scoreList);
+			if(total<0){
+				//console.info(scoreList);
+				n++;
 			}
 			return;
 		}
-		for(var i=0;i<10;i++){
+		for(var i=0;i<=10;i++){
 			var s=scoreList.slice();
 			var t=time;
+			var tt=total;
 			s.push(i);
-			greatThan90(s,--t);
+			greatThan90(i,s,tt-i,--t);
 		}
 	}
-	greatThan90([],3);
-    
+	greatThan90(0,[],90,10);
+    console.info(n);
 </script>
