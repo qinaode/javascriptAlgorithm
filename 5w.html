@@ -1,0 +1,91 @@
+<script>
+	//只能在调用之前的地方先扩展
+	Array.prototype.hasItem=function(item){
+		for(var k in this){
+			if(this[k]===item){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	Array.prototype.contains=function(item){
+		return this.indexOf(item)>-1;
+	}
+
+	Array.prototype.minus = function(sub){ 
+	    return this.filter(function(o){return !sub.contains(o)}); 
+	}; 
+	Array.prototype.sum=function(){
+		var sum=0;
+		for(var i=0;i<this.length;i++){
+			sum+=this[i];
+		}
+		return sum;
+	}
+	//console.info([1,2].sum());
+	// console.info(kk.slice(1,1));
+	//var words=["a","b","c","d","e","f","g","h","i","j","k","l"];
+	//1.方法一穷举
+	// var words=["a","b","c"];
+	// var temp=[];
+	// var time=0;
+	// for(var i=0;i<words.length;i++){
+	// 	for(var j=0;j<words.length;j++){
+	// 		for(var k=0;k<words.length;k++){
+	// 			if(!hasWord(temp,words[i])){temp.push(words[i]);}
+	// 			if(!hasWord(temp,words[j])){temp.push(words[j]);}
+	// 			if(!hasWord(temp,words[k])){temp.push(words[k]);}
+	// 			if(temp.length==3){time++;console.info(temp.join(","))};
+	// 			temp=[];
+	// 		}
+	// 	}
+	// }
+
+
+
+
+
+
+	//2.递归 求全排列
+	var words=["a","b","c"];
+	var rs=[];
+
+	function pp(r,words){
+		if(words.length==1){
+			r.push(words[0]);
+			rs.push(r);
+			return;
+		}
+		for(var i=0;i<words.length;i++){
+			var temp=[];
+			temp.push(words[i]);
+			var result=r.slice();//每一次都从新分配内存进行数组结果的保存。并将结果传递下去
+			result.push(words[i]);
+			pp(result,words.minus(temp));
+		}
+	}
+	//pp([],words);
+
+	//0-10 取10次 和值大于90有多少种情况
+	//递归转换为取9次 和值分别大于 80 81 82 83 84 85 86 87 88 89 90
+	//方法一，最后一次才判断，相当于穷举
+	//方法二,合理递归则不会进行到最后一次，速度较快
+	//操,以下方法居然求出来的是组合，而不是全部的情况
+	function greatThan90(scoreList,time){
+		if(time==0){
+			if(scoreList.sum()==13){
+				console.info(scoreList);
+			}
+			return;
+		}
+		for(var i=0;i<10;i++){
+			var s=scoreList.slice();
+			var t=time;
+			s.push(i);
+			greatThan90(s,--t);
+		}
+	}
+	greatThan90([],3);
+    
+</script>
