@@ -1,0 +1,34 @@
+<script type="text/javascript">
+	var names=["qinao","luodan","wangyiwen"];
+	var actions=["eate","run","sleep","coding"];
+	var obj=["rice","road","fruit","goods"];
+	var s=[],rs=[];
+	s.push(names);
+	s.push(actions);
+	s.push(obj);
+	//切记内部不要声明和参数同名的变量
+	function CartesianProduct(result,s){
+		
+		//1.如果是最后一个数组
+		if(s.length==1){
+			for(var i=0;i<s[0].length;i++){
+				var r=result.slice();
+				r.push(s[0][i]);
+				//rs.push(r);//存入2维数组
+				rs.push(r.toString());	//存入一维数组			
+			}
+			return;
+		}
+		//需要传递下去的参数一定要重新声明内存。
+		var clones=s.slice();
+		var ss=clones.shift();
+		for(var i=0;i<ss.length;i++){
+			var r=result.slice();
+			r.push(ss[i]);
+			CartesianProduct(r,clones);
+		}
+	}
+	CartesianProduct([],s);
+	console.info(rs);
+	console.info(rs.length);
+</script>
